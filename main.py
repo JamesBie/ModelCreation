@@ -50,6 +50,42 @@ def dataprep(train_dir, validation_dir):
 
 	return(train_data_gen, val_data_gen)
 
+def compileModel():
+	model = Sequential([
+    Conv2D(16, 3, padding='same', activation='relu', input_shape=(IMG_HEIGHT, IMG_WIDTH ,3)),
+    MaxPooling2D(),
+    Conv2D(32, 3, padding='same', activation='relu'),
+    MaxPooling2D(),
+    Conv2D(64, 3, padding='same', activation='relu'),
+    MaxPooling2D(),
+    Flatten(),
+    Dense(512, activation='relu'),
+    Dense(1, activation='sigmoid')
+])
+
+	model.compile(optimizer='adam',
+              loss='binary_crossentropy',
+              metrics=['accuracy'])
+
+	model.summary()
+
+	return model
+
+
+def trainModel(model, train_data_gen):
+	
+	history = model.fit_generator(
+    train_data_gen,
+    steps_per_epoch=total_train // batch_size,
+    epochs=epochs,
+    validation_data=val_data_gen,
+    validation_steps=total_val // batch_size
+)
+
+def saveModel(model):
+	print("model should be saved here")
+
+
 def main():
 
 	PATH = "../Rock_Hold_Dataset"
@@ -62,6 +98,10 @@ def main():
 	print("looking at " , num_rock_holds, " images")
 
 	train_data_gen, val_data_gen = dataprep(train_dir, validation_dir)
+
+	model = compileModel()
+
+	print("train the model here when ready")
 
 
 	print("done main")
