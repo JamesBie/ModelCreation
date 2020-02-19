@@ -8,3 +8,16 @@ python object_detection/model_main.py \
     --num_train_steps=${NUM_TRAIN_STEPS} \
     --sample_1_of_n_eval_examples=$SAMPLE_1_OF_N_EVAL_EXAMPLES \
     --alsologtostderr
+
+
+inference code
+
+INPUT_TYPE=image_tensor
+PIPELINE_CONFIG_PATH="../../ModelCreation/models/model/pipeline.config"
+TRAINED_CKPT_PREFIX="../../ModelCreation/models/model/model.ckpt-13884"
+EXPORT_DIR=../../ModelCreation/models/model/trainedmodel
+python object_detection/export_inference_graph.py \
+    --input_type=${INPUT_TYPE} \
+    --pipeline_config_path=${PIPELINE_CONFIG_PATH} \
+    --trained_checkpoint_prefix=${TRAINED_CKPT_PREFIX} \
+    --output_directory=${EXPORT_DIR}
